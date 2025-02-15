@@ -17,7 +17,45 @@ const subscriptionSchema = new mongoose.Schema({
     currency: {
         type: String,
         enum: ["USD", "EUR", "GBP", "TRY"],
+        default: "USD",
+
+    },
+    frequency: {
+        type: String,
+        enum: ["daily","weekly", "monthly", "yearly"]
+    },
+    category: {
+        type: String,
+        enum: ["sports", "news", "entertainment", "lifestyle", "finance", "politics", "other"],
+        required: true,
+    },
+    paymentMethod:{
+        type:String,
+        required: true,
+        trim: true,
+    },
+    status: {
+        type: String,
+        enum: ["active", "cancelled", "expired"],
+        default: "active",
+    },
+    startDate: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: (value) => value <= new Date(),
+            message: "Start date must be in the past",
+        }
+    },
+    renewalDate: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: (value) => value > new Date(),
+            message: "Renewal date must be in the future",
+        }
     }
+
 }, 
 {
     timestamps: true
