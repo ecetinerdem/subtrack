@@ -23,3 +23,5 @@ const arcJetMiddleware = async (req, res, next) => {
         next(error)
     }
 }
+
+export default arcJetMiddleware;
