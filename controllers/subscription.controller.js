@@ -26,6 +26,7 @@ export const getUserSubscription = async (req, res, next) => {
         }
         
         const subscription = await Subscription.find({ user: req.params.id })
+        res.status(200).json({ success: true, data: subscription})
         
         } catch (e) {
             next(e)
