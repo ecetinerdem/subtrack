@@ -24,8 +24,9 @@ export const sendReminders = serve(async (context) => {
     for (daysBefore of REMINDERS) {
         const reminderDate = renewalDate.subtract(daysBefore, 'day');
         if(reminderDate.isAfter(dayjs())) {
-            //sleep
+            await sleepUntilReminder(context, `Reminder ${daysBefore} days before`, reminderDate)
         }
+        await triggerReminder(context, `Reminder ${daysBefore} days before`)
     }
 
     
@@ -39,7 +40,7 @@ const fetchSubscription = async (context, subscriptionId) => {
     })
 }
 
-const sleepUntilReminder = async (context, MongoErrorLabel, date) => {
+const sleepUntilReminder = async (context, label, date) => {
     console.log(`Sleeping until ${label} reminder at ${date}`)
     await context.sleepUntil(label, date.toDate());
 }
